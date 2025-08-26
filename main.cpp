@@ -1,78 +1,105 @@
 #include "Gamma/Oscillator.h"
 #include "Gamma/SamplePlayer.h"
 #include "al/app/al_App.hpp"
-#include "al/math/al_Random.hpp"
 #include "al/app/al_GUIDomain.hpp"
 #include "al/math/al_Random.hpp"
 #include "al/sound/al_Reverb.hpp"
 #include "al/ui/al_Parameter.hpp"
 
+#define DR_WAV_IMPLEMENTATION
+#include "dr_wav.h"
+
 using namespace al;
 
-std::unordered_map<char, std::unordered_map<char, const char*>> filename = {
-    {'1',
-     {
-         {'a', "Bird Chirp (long).mp3.wav"},    //
-         {'k', "Bug buzzy.mp3.wav"},            //
-         {'s', "Cleaner chirp.mp3.wav"},        //
-         {'v', "Creepy plane.mp3.wav"},         //
-         {'n', "Crunchy Walk.mp3.wav"},         //
-         {'z', "E plane.mp3.wav"},              //
-         {'x', "F plane.mp3.wav"},              //
-         {'c', "F# plane.mp3.wav"},             //
-         {'l', "F# wind.mp3.wav"},              //
-         {'b', "Long walk.mp3.wav"},            //
-         {'d', "Lower pitched chirp.mp3.wav"},  //
-         {'f', "Person _hold on_.mp3.wav"},     //
-         {'g', "Person _ya_.mp3.wav"},          //
-         {'j', "Rumbling wind.mp3.wav"},        //
-         {'h', "Soft wind.mp3.wav"},            //
-     }},
-    {'2',
-     {
-         {'w', "Another wave.mp3.wav"},      //
-         {'p', "Birds (multiple).mp3.wav"},  //
-         {'a', "Birds loud.mp3.wav"},        //
-         {'d', "Buzz (Bee_).mp3.wav"},       //
-         {'i', "Cling Clank.mp3.wav"},       //
-         {'s', "Cycling wind.mp3.wav"},      //
-         {'g', "F plane.mp3.wav"},           //
-         {'j', "F# Plane.mp3.wav"},          //
-         {'l', "Footsteps 1.mp3.wav"},       //
-         {';', "Footsteps 2.mp3.wav"},       //
-         {'t', "Kid upset_.mp3.wav"},        //
-         {'q', "Ocean Spray.mp3.wav"},       //
-         {'y', "People (oh no).mp3.wav"},    //
-         {'t', "People (woo).mp3.wav"},      //
-         {'o', "Percussive click.mp3.wav"},  //
-         {'f', "Plane E (Loud).mp3.wav"},    //
-         {'h', "Plane F (loud).mp3.wav"},    //
-         {'k', "Plane F# vib.mp3.wav"},      //
-         {'r', "Wave Dramatic.mp3.wav"},     //
-         {'e', "Wave choppy.mp3.wav"},       //
-     }},
-    {'3',
-     {
-         {'f', "B plane.mp3.wav"},                             //
-         {'e', "Bike (Crank).mp3.wav"},                        //
-         {'r', "Bike (long).mp3.wav"},                         //
-         {'t', "Bike (quiet to loud).mp3.wav"},                //
-         {'y', "Bike (sudden rush).mp3.wav"},                  //
-         {'q', "Bike 6.mp3.wav"},                              //
-         {'w', "Bike 8.mp3.wav"},                              //
-         {'u', "Bike Creaky tires.mp3.wav"},                   //
-         {'i', "Bike click.mp3.wav"},                          //
-         {'l', "Bikepath walking clip.mp3.wav"},               //
-         {'g', "C plane.mp3.wav"},                             //
-         {'s', "More birds.mp3.wav"},                          //
-         {'p', "People (he lives a different life).mp3.wav"},  //
-         {'o', "Person (im indifferent).mp3.wav"},             //
-         {'h', "Plane C# w bike.mp3.wav"},                     //
-         {'k', "Plane F w bike.mp3.wav"},                      //
-         {'d', "Plane humm.mp3.wav"},                          //
-         {'j', "Rumble D plane.mp3.wav"},                      //
-         {'a', "birds.mp3.wav"},                               //
-     }}};
+class AudioRecording : std::vector<float> {
+ public:
+  void operator()(float t) { push_back(t); }
+  void save(const char* filename) {
+    // TBD: implement saving
+
+    drwav_data_format format;
+    format.channels = 1;
+    format.container = drwav_container_riff;
+    format.format = DR_WAVE_FORMAT_IEEE_FLOAT;
+    format.sampleRate = 48000;
+    format.bitsPerSample = 32;
+    drwav* pWav = drwav_open_file_write(filename, &format);
+    if (pWav == nullptr) {
+      exit(1);
+    }
+    for (auto f : *this) {
+      if (1 != drwav_write(pWav, 1, &f)) {
+        exit(1);
+      }
+    }
+    drwav_close(pWav);
+  }
+};
+
+std::unordered_map<char, std::unordered_map<char, const char*>>
+    filename = {{'1',
+                 {
+                     {'a', "Bird Chirp (long).mp3.wav"},    //
+                     {'k', "Bug buzzy.mp3.wav"},            //
+                     {'s', "Cleaner chirp.mp3.wav"},        //
+                     {'v', "Creepy plane.mp3.wav"},         //
+                     {'n', "Crunchy Walk.mp3.wav"},         //
+                     {'z', "E plane.mp3.wav"},              //
+                     {'x', "F plane.mp3.wav"},              //
+                     {'c', "F# plane.mp3.wav"},             //
+                     {'l', "F# wind.mp3.wav"},              //
+                     {'b', "Long walk.mp3.wav"},            //
+                     {'d', "Lower pitched chirp.mp3.wav"},  //
+                     {'f', "Person _hold on_.mp3.wav"},     //
+                     {'g', "Person _ya_.mp3.wav"},          //
+                     {'j', "Rumbling wind.mp3.wav"},        //
+                     {'h', "Soft wind.mp3.wav"},            //
+                 }},
+                {'2',
+                 {
+                     {'w', "Another wave.mp3.wav"},      //
+                     {'p', "Birds (multiple).mp3.wav"},  //
+                     {'a', "Birds loud.mp3.wav"},        //
+                     {'d', "Buzz (Bee_).mp3.wav"},       //
+                     {'i', "Cling Clank.mp3.wav"},       //
+                     {'s', "Cycling wind.mp3.wav"},      //
+                     {'g', "F plane.mp3.wav"},           //
+                     {'j', "F# Plane.mp3.wav"},          //
+                     {'l', "Footsteps 1.mp3.wav"},       //
+                     {';', "Footsteps 2.mp3.wav"},       //
+                     {'t', "Kid upset_.mp3.wav"},        //
+                     {'q', "Ocean Spray.mp3.wav"},       //
+                     {'y', "People (oh no).mp3.wav"},    //
+                     {'t', "People (woo).mp3.wav"},      //
+                     {'o', "Percussive click.mp3.wav"},  //
+                     {'f', "Plane E (Loud).mp3.wav"},    //
+                     {'h', "Plane F (loud).mp3.wav"},    //
+                     {'k', "Plane F# vib.mp3.wav"},      //
+                     {'r', "Wave Dramatic.mp3.wav"},     //
+                     {'e', "Wave choppy.mp3.wav"},       //
+                 }},
+                {'3',
+                 {
+                     {'f', "B plane.mp3.wav"},                             //
+                     {'e', "Bike (Crank).mp3.wav"},                        //
+                     {'r', "Bike (long).mp3.wav"},                         //
+                     {'t', "Bike (quiet to loud).mp3.wav"},                //
+                     {'y', "Bike (sudden rush).mp3.wav"},                  //
+                     {'q', "Bike 6.mp3.wav"},                              //
+                     {'w', "Bike 8.mp3.wav"},                              //
+                     {'u', "Bike Creaky tires.mp3.wav"},                   //
+                     {'i', "Bike click.mp3.wav"},                          //
+                     {'l', "Bikepath walking clip.mp3.wav"},               //
+                     {'g', "C plane.mp3.wav"},                             //
+                     {'s', "More birds.mp3.wav"},                          //
+                     {'p', "People (he lives a different life).mp3.wav"},  //
+                     {'o', "Person (im indifferent).mp3.wav"},             //
+                     {'h', "Plane C# w bike.mp3.wav"},                     //
+                     {'k', "Plane F w bike.mp3.wav"},                      //
+                     {'d', "Plane humm.mp3.wav"},                          //
+                     {'j', "Rumble D plane.mp3.wav"},                      //
+                     {'a', "birds.mp3.wav"},                               //
+                 }}};
 
 std::unordered_map<
     char, std::unordered_map<char, std::unique_ptr<gam::SamplePlayer<float>>>>
@@ -89,8 +116,8 @@ class Clip : public SynthVoice {
     mesh.primitive(Mesh::TRIANGLES);
 
     for (int i = 0; i < 3; i++) {
-    mesh.vertex(rnd::ball<Vec3f>());
-    mesh.color(rnd::uniform(1.0), rnd::uniform(1.0), rnd::uniform(1.0));
+      mesh.vertex(rnd::ball<Vec3f>());
+      mesh.color(rnd::uniform(1.0), rnd::uniform(1.0), rnd::uniform(1.0));
     }
   }
 
@@ -103,9 +130,7 @@ class Clip : public SynthVoice {
     }
   }
 
-  void onProcess(Graphics& g) override {
-    g.draw(mesh);
-  }
+  void onProcess(Graphics& g) override { g.draw(mesh); }
 
   void set(gam::SamplePlayer<float>& p, float rate = 1.0f) {
     player.buffer(p);
@@ -127,6 +152,7 @@ struct MyApp : App {
   PresetHandler presetHandler{"sequencer_preset"};
   PolySynth synth;
   Reverb<> reverb;
+  AudioRecording recording;
 
   void onInit() override {
     synth.allocatePolyphony<Clip>(16);
@@ -166,6 +192,7 @@ struct MyApp : App {
     while (io()) {
       reverb.mix(io.out(0), io.out(1), wetness);
       // reverb(io.out(0) + io.out(1), io.out(0), io.out(1));
+      recording(io.out(0));
     }
   }
   char which = '1';
@@ -187,10 +214,19 @@ struct MyApp : App {
     synth.triggerOn(voice);
     return true;
   }
+
+  void onExit() override {
+    char filename[32];
+    snprintf(filename, sizeof(filename), "recording-%d.wav", rnd::uniform(10000));  
+    recording.save(filename);
+  } 
 };
 
 int main() {
   MyApp app;
+//  AudioDevice device = AudioDevice("ScreenRecording");
+//  device.print();
+//  app.configureAudio(device, 48000, 512, 2, 0);
   app.configureAudio(48000, 512, 2, 0);
   gam::sampleRate(48000);
   app.start();
