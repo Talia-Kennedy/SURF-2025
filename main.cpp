@@ -39,66 +39,66 @@ class AudioRecording : std::vector<float> {
 std::unordered_map<char, std::unordered_map<char, const char*>>
     filename = {{'1',
                  {
-                     {'a', "Bird Chirp (long).mp3.wav"},    //
-                     {'k', "Bug buzzy.mp3.wav"},            //
-                     {'s', "Cleaner chirp.mp3.wav"},        //
-                     {'v', "Creepy plane.mp3.wav"},         //
-                     {'n', "Crunchy Walk.mp3.wav"},         //
-                     {'z', "E plane.mp3.wav"},              //
-                     {'x', "F plane.mp3.wav"},              //
-                     {'c', "F# plane.mp3.wav"},             //
-                     {'l', "F# wind.mp3.wav"},              //
-                     {'b', "Long walk.mp3.wav"},            //
-                     {'d', "Lower pitched chirp.mp3.wav"},  //
-                     {'f', "Person _hold on_.mp3.wav"},     //
-                     {'g', "Person _ya_.mp3.wav"},          //
-                     {'j', "Rumbling wind.mp3.wav"},        //
-                     {'h', "Soft wind.mp3.wav"},            //
+                     {'a', "Bird Chirp (long).wav"},    //
+                     {'k', "Bug buzzy.wav"},            //
+                     {'s', "Cleaner chirp.wav"},        //
+                     {'v', "Creepy plane.wav"},         //
+                     {'n', "Crunchy Walk.wav"},         //
+                     {'z', "E plane.wav"},              //
+                     {'x', "F plane.wav"},              //
+                     {'c', "F# plane.wav"},             //
+                     {'l', "F# wind.wav"},              //
+                     {'b', "Long walk.wav"},            //
+                     {'d', "Lower pitched chirp.wav"},  //
+                     {'f', "Person _hold on_.wav"},     //
+                     {'g', "Person _ya_.wav"},          //
+                     {'j', "Rumbling wind.wav"},        //
+                     {'h', "Soft wind.wav"},            //
                  }},
                 {'2',
                  {
-                     {'w', "Another wave.mp3.wav"},      //
-                     {'p', "Birds (multiple).mp3.wav"},  //
-                     {'a', "Birds loud.mp3.wav"},        //
-                     {'d', "Buzz (Bee_).mp3.wav"},       //
-                     {'i', "Cling Clank.mp3.wav"},       //
-                     {'s', "Cycling wind.mp3.wav"},      //
-                     {'g', "F plane.mp3.wav"},           //
-                     {'j', "F# Plane.mp3.wav"},          //
-                     {'l', "Footsteps 1.mp3.wav"},       //
-                     {';', "Footsteps 2.mp3.wav"},       //
-                     {'t', "Kid upset_.mp3.wav"},        //
-                     {'q', "Ocean Spray.mp3.wav"},       //
-                     {'y', "People (oh no).mp3.wav"},    //
-                     {'t', "People (woo).mp3.wav"},      //
-                     {'o', "Percussive click.mp3.wav"},  //
-                     {'f', "Plane E (Loud).mp3.wav"},    //
-                     {'h', "Plane F (loud).mp3.wav"},    //
-                     {'k', "Plane F# vib.mp3.wav"},      //
-                     {'r', "Wave Dramatic.mp3.wav"},     //
-                     {'e', "Wave choppy.mp3.wav"},       //
+                     {'w', "Another wave.wav"},      //
+                     {'p', "Birds (multiple).wav"},  //
+                     {'a', "Birds loud.wav"},        //
+                     {'d', "Buzz (Bee?).wav"},       //
+                     {'i', "Cling Clank.wav"},       //
+                     {'s', "Cycling wind.wav"},      //
+                     {'g', "F plane.wav"},           //
+                     {'j', "F# Plane.wav"},          //
+                     {'l', "Footsteps 1.wav"},       //
+                     {';', "Footsteps 2.wav"},       //
+                     {'t', "Kid upset?.wav"},        //
+                     {'q', "Ocean Spray.wav"},       //
+                     {'y', "People (oh no).wav"},    //
+                     {'u', "People (woo).wav"},      //
+                     {'o', "Percussive click.wav"},  //
+                     {'f', "Plane E (Loud).wav"},    //
+                     {'h', "Plane F (loud).wav"},    //
+                     {'k', "Plane F# vib.wav"},      //
+                     {'r', "Wave Dramatic.wav"},     //
+                     {'e', "Wave choppy.wav"},       //
                  }},
                 {'3',
                  {
-                     {'f', "B plane.mp3.wav"},                             //
-                     {'e', "Bike (Crank).mp3.wav"},                        //
-                     {'r', "Bike (long).mp3.wav"},                         //
-                     {'t', "Bike (quiet to loud).mp3.wav"},                //
-                     {'y', "Bike (sudden rush).mp3.wav"},                  //
-                     {'q', "Bike 6.mp3.wav"},                              //
-                     {'w', "Bike 8.mp3.wav"},                              //
-                     {'u', "Bike Creaky tires.mp3.wav"},                   //
-                     {'i', "Bike click.mp3.wav"},                          //
-                     {'l', "Bikepath walking clip.mp3.wav"},               //
-                     {'g', "C plane.mp3.wav"},                             //
-                     {'s', "More birds.mp3.wav"},                          //
-                     {'p', "People (he lives a different life).mp3.wav"},  //
-                     {'o', "Person (im indifferent).mp3.wav"},             //
-                     {'h', "Plane C# w bike.mp3.wav"},                     //
-                     {'k', "Plane F w bike.mp3.wav"},                      //
-                     {'d', "Plane humm.mp3.wav"},                          //
-                     {'j', "Rumble D plane.mp3.wav"},                      //
-                     {'a', "birds.mp3.wav"},                               //
+                     {'f', "B plane.wav"},                             //
+                     {'e', "Bike (Crank).wav"},                        //
+                     {'r', "Bike (long).wav"},                         //
+                     {'t', "Bike (quiet to loud).wav"},                //
+                     {'y', "Bike (sudden rush).wav"},                  //
+                     {'q', "Bike 6.wav"},                              //
+                     {'w', "Bike 8.wav"},                              //
+                     {'u', "Bike Creaky tires.wav"},                   //
+                     {'i', "Bike click.wav"},                          //
+                     {'l', "Bikepath walking clip.wav"},               //
+                     {'g', "C plane.wav"},                             //
+                     {'s', "More birds.wav"},                          //
+                     {'p', "People (he lives a different life).wav"},  //
+                     {'o', "Person (im indifferent).wav"},             //
+                     {'h', "Plane C# w bike.wav"},                     //
+                     {'k', "Plane F w bike.wav"},                      //
+                     {'d', "Plane humm.wav"},                          //
+                     {'j', "Rumble D plane.wav"},                      //
+                     {'a', "birds.wav"},                               //
                  }}};
 
 std::unordered_map<
